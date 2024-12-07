@@ -94,19 +94,25 @@ public abstract class GenericDAO<T, E extends Serializable> implements IGenericD
 	@Override
 	public T findById(Serializable id) throws IDNotFoundException {
 		try (final EntityManager entityManager = PostgreSQL.getConnection()) {
-			return entityManager.find(entityClass, id);
+			final T entity = entityManager.find(entityClass, id);
+			
+			if (entity == null) {
+				throw new IDNotFoundException(id);
+			}
+			
+			return entity;
 		}
 	}
 	
-	private void begin(EntityManager entityManager) {
+	protected void begin(EntityManager entityManager) {
 		entityManager.getTransaction().begin();
 	}
 	
-	private void commit(EntityManager entityManager) {
+	protected void commit(EntityManager entityManager) {
 		entityManager.getTransaction().commit();
 	}
 	
-	private void rollback(EntityManager entityManager) {
+	protected void rollback(EntityManager entityManager) {
 		entityManager.getTransaction().rollback();
 	}
 }

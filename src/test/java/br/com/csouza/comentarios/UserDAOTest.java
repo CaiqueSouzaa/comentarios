@@ -8,6 +8,7 @@ import br.com.csouza.comentarios.dao.UserDAO;
 import br.com.csouza.comentarios.domain.User;
 import br.com.csouza.comentarios.exceptions.FakeSizeException;
 import br.com.csouza.comentarios.exceptions.IDNotFoundException;
+import br.com.csouza.comentarios.exceptions.UserNotFoundException;
 import br.com.csouza.comentarios.interfaces.dao.IUserDAO;
 import br.com.csouza.comentarios.utils.Fake;
 
@@ -123,6 +124,47 @@ public class UserDAOTest {
 	}
 	
 	@Test
-	public void findById() {
+	public void findById() throws FakeSizeException, IDNotFoundException {
+		final User u1 = this.register();
+		final User u2 = this.register();
+		final User u3 = this.register();
+		final User u4 = this.register();
+		
+		final User user = this.userDAO.findById(u3.getId());
+
+		Assert.assertEquals(u3.getId(), user.getId());
+		Assert.assertEquals(u3.getName(), user.getName());
+		Assert.assertEquals(u3.getSurname(), user.getSurname());
 	}
+
+	@Test
+	public void findByLogin() throws FakeSizeException, UserNotFoundException {
+		final User u1 = this.register();
+		final User u2 = this.register();
+		final User u3 = this.register();
+		final User u4 = this.register();
+		
+		final User user = this.userDAO.findByLogin(u2.getLogin());
+
+		Assert.assertEquals(u2.getId(), user.getId());
+		Assert.assertEquals(u2.getName(), user.getName());
+		Assert.assertEquals(u2.getSurname(), user.getSurname());
+		Assert.assertEquals(u2.getLogin(), user.getLogin());
+	}
+
+	@Test
+	public void findByEmail() throws FakeSizeException, UserNotFoundException {
+		final User u1 = this.register();
+		final User u2 = this.register();
+		final User u3 = this.register();
+		final User u4 = this.register();
+		
+		final User user = this.userDAO.findByEmail(u2.getEmail());
+
+		Assert.assertEquals(u2.getId(), user.getId());
+		Assert.assertEquals(u2.getName(), user.getName());
+		Assert.assertEquals(u2.getSurname(), user.getSurname());
+		Assert.assertEquals(u2.getEmail(), user.getEmail());
+	}
+	
 }

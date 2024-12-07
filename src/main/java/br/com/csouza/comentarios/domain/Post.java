@@ -29,7 +29,7 @@ public class Post {
 	@Column(name = "content", nullable = true, columnDefinition = "TEXT")
 	private String content;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(
 			name = "user_id",
 			foreignKey = @ForeignKey(name = "fk_id_users"),
