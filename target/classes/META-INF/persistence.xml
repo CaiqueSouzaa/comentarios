@@ -1,0 +1,33 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="Comentarios">   
+        <description>
+        	Banco de dados do projeto Comentarios
+        </description>
+        
+        <class>br.com.csouza.comentarios.domain.User</class>
+        <class>br.com.csouza.comentarios.domain.Post</class>
+        <class>br.com.csouza.comentarios.domain.Comment</class>
+
+        <properties>    
+            <!-- Database connection settings -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:15432/db_comentarios" />
+            <property name="jakarta.persistence.jdbc.user" value="postgres" />
+            <property name="jakarta.persistence.jdbc.password" value="admin" />
+            
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+
+            <!-- Automatically export the schema -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="create" />
+
+            <!-- Echo all executed SQL to console -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+       </properties>
+
+    </persistence-unit>
+
+</persistence>
