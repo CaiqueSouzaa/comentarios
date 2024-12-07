@@ -94,7 +94,7 @@ public class Fake {
 	
 	/**
 	 * Método para gerar usuários aleatórios.
-	 * @param userRepository Repositorio de usuários.
+	 * @param userRepository - Repositorio de usuários.
 	 * @return Usuário registrado com seu ID.
 	 * @throws FakeSizeException Exceção lançada caso ocorra algum problema na geração do usuário.
 	 */
@@ -108,5 +108,22 @@ public class Fake {
 		user.setBirthday(Instant.parse("2000-07-29T00:00:00Z"));
 		
 		return userRepository.register(user);
+	}
+	
+	/**
+	 * Método para gerar um post aleatório.
+	 * @param postRepository - Repositóvio de posts.
+	 * @param user - Usuário a ser atribuido ao post.
+	 * @return Post regitrado com seu ID.
+	 * @throws FakeSizeException Exceção lançada caso ocorra algum problema na geração do post.
+	 */
+	public static Post post(IPostRepository postRepository, User user) throws FakeSizeException {
+		final Post post = new Post();
+		
+		post.setTitle(fake(10));
+		post.setContent(fake(20));
+		post.setUser(user);
+		
+		return postRepository.register(post);
 	}
 }

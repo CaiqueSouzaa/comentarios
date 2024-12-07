@@ -26,7 +26,7 @@ public class Comment {
 	@Column(name = "comment", nullable = true, columnDefinition = "TEXT")
 	private String comment;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(
 			name = "post_id",
 			foreignKey = @ForeignKey(name = "fk_id_posts"),
@@ -34,7 +34,7 @@ public class Comment {
 	)
 	private Post post;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(
 			name = "user_id",
 			foreignKey = @ForeignKey(name = "fk_id_users"),
