@@ -82,6 +82,16 @@ public class User {
 		return email;
 	}
 
+	/**
+	 * Método para definir o endereço de e-mail do usuário.
+	 * @param email - Endereço de e-mail a ser atribuido ao usuário.
+	 * 
+	 * O endereço de e-mail deve seguir o regex "^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\\.[a-zA-Z0-9.]+$".
+	 * Exemplos: 
+	 * - E-mail válido: caique.souza@email.com
+	 * - E-mail inválido: caique.souzaa
+	 * - E-mail inválido: caique.souzaa@email
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
