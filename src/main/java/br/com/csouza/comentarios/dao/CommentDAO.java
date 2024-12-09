@@ -3,24 +3,20 @@ package br.com.csouza.comentarios.dao;
 import java.util.Collection;
 
 import br.com.csouza.comentarios.domain.Comment;
-import br.com.csouza.comentarios.exceptions.IDNotFoundException;
 import br.com.csouza.comentarios.exceptions.PostNotFoundException;
 import br.com.csouza.comentarios.exceptions.UserNotFoundException;
 import br.com.csouza.comentarios.interfaces.dao.ICommentDAO;
 import br.com.csouza.comentarios.interfaces.dao.IPostDAO;
-import br.com.csouza.comentarios.interfaces.dao.IUserDAO;
 import br.com.csouza.comentarios.jdbc.PostgreSQL;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 public class CommentDAO extends GenericDAO<Comment, Long> implements ICommentDAO {
 	private final IPostDAO postDAO;
-	private final IUserDAO userDAO;
 	
 	public CommentDAO() {
 		super(Comment.class);
 		this.postDAO = new PostDAO();
-		this.userDAO = new UserDAO();
 	}
 	
 	@Override

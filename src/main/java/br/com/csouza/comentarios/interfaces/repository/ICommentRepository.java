@@ -3,7 +3,6 @@ package br.com.csouza.comentarios.interfaces.repository;
 import java.util.Collection;
 
 import br.com.csouza.comentarios.domain.Comment;
-import br.com.csouza.comentarios.exceptions.IDNotFoundException;
 import br.com.csouza.comentarios.exceptions.PostNotFoundException;
 import br.com.csouza.comentarios.exceptions.UserNotFoundException;
 

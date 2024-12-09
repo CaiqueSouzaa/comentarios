@@ -131,10 +131,10 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
-		final Comment c2 = this.register(p2, u1);
-		final Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
+		this.register(p1, u2);
+		this.register(p2, u1);
+		this.register(p1, u1);
+		this.register(p2, u2);
 		
 		final Collection<Comment> comments = this.commentDAO.read();
 		
@@ -149,10 +149,10 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
-		final Comment c2 = this.register(p2, u1);
+		this.register(p1, u2);
+		this.register(p2, u1);
 		Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
+		this.register(p2, u2);
 		
 		c3.setComment("Estou corrigindo meu comentário, ele estava errado :)");
 		
@@ -171,10 +171,10 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
+		this.register(p1, u2);
 		final Comment c2 = this.register(p2, u1);
-		final Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
+		this.register(p1, u1);
+		this.register(p2, u2);
 		
 		final boolean r1 = this.commentDAO.delete(c2.getId());
 		
@@ -189,10 +189,10 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
-		final Comment c2 = this.register(p2, u1);
+		this.register(p1, u2);
+		this.register(p2, u1);
 		final Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
+		this.register(p2, u2);
 		
 		final Comment comment = this.commentDAO.findById(c3.getId());
 		
@@ -208,11 +208,11 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
-		final Comment c2 = this.register(p2, u1);
-		final Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
-		final Comment c5 = this.register(p2, u2);
+		this.register(p1, u2);
+		this.register(p2, u1);
+		this.register(p1, u1);
+		this.register(p2, u2);
+		this.register(p2, u2);
 		
 		final Collection<Comment> comments1 = this.commentDAO.findAllByPostId(p1.getId());
 		final Collection<Comment> comments2 = this.commentDAO.findAllByPostId(p2.getId());
@@ -229,11 +229,11 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
-		final Comment c2 = this.register(p2, u1);
-		final Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
-		final Comment c5 = this.register(p2, u2);
+		this.register(p1, u2);
+		this.register(p2, u1);
+		this.register(p1, u1);
+		this.register(p2, u2);
+		this.register(p2, u2);
 
 		final Collection<Comment> comments1 = this.commentDAO.findCreatedById(p1.getId(), u2.getId()); // Comentou uma vez
 		final Collection<Comment> comments2 = this.commentDAO.findCreatedById(p2.getId(), u1.getId()); // Comentou uma vez
@@ -255,11 +255,11 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
-		final Comment c2 = this.register(p2, u1);
-		final Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
-		final Comment c5 = this.register(p2, u2);
+		this.register(p1, u2);
+		this.register(p2, u1);
+		this.register(p1, u1);
+		this.register(p2, u2);
+		this.register(p2, u2);
 
 		final Collection<Comment> comments1 = this.commentDAO.findCreatedByLogin(p1.getId(), u2.getLogin()); // Comentou uma vez
 		final Collection<Comment> comments2 = this.commentDAO.findCreatedByLogin(p2.getId(), u1.getLogin()); // Comentou uma vez
@@ -280,11 +280,11 @@ public class CommentDAOTest {
 		final Post p1 = Fake.post(postRepository, u1);
 		final Post p2 = Fake.post(postRepository, u2);
 		
-		final Comment c1 = this.register(p1, u2);
-		final Comment c2 = this.register(p2, u1);
-		final Comment c3 = this.register(p1, u1);
-		final Comment c4 = this.register(p2, u2);
-		final Comment c5 = this.register(p2, u2);
+		this.register(p1, u2);
+		this.register(p2, u1);
+		this.register(p1, u1);
+		this.register(p2, u2);
+		this.register(p2, u2);
 
 		final Collection<Comment> comments1 = this.commentDAO.findCreatedByEmail(p1.getId(), u2.getEmail()); // Comentou uma vez
 		final Collection<Comment> comments2 = this.commentDAO.findCreatedByEmail(p2.getId(), u1.getEmail()); // Comentou uma vez

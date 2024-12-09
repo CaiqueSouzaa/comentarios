@@ -126,7 +126,7 @@ public class CommentRepositoryTest {
         User user = Fake.user(userRepository);
         Post post = Fake.post(postRepository, user);
 
-        Comment comment = this.register(post, user);
+        this.register(post, user);
         Collection<Comment> comments = this.commentRepository.getCreatedById(post.getId(), user.getId());
 
         Assert.assertEquals(1, comments.size());

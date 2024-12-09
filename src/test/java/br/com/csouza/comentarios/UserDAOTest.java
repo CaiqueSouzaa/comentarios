@@ -79,9 +79,9 @@ public class UserDAOTest {
 	
 	@Test
 	public void read() throws FakeSizeException {	
-		final User u1 = this.register();
-		final User u2 = this.register();
-		final User u3 = this.register();
+		this.register();
+		this.register();
+		this.register();
 		
 		final Collection<User> users = this.userDAO.read();
 		
@@ -91,9 +91,9 @@ public class UserDAOTest {
 	
 	@Test
 	public void update() throws FakeSizeException, IDNotFoundException {
-		final User u1 = this.register();
+		this.register();
 		final User u2 = this.register();
-		final User u3 = this.register();
+		this.register();
 		
 		u2.setName("Caique");
 		u2.setSurname("Souza");
@@ -125,10 +125,10 @@ public class UserDAOTest {
 	
 	@Test
 	public void findById() throws FakeSizeException, IDNotFoundException {
-		final User u1 = this.register();
-		final User u2 = this.register();
+		this.register();
+		this.register();
 		final User u3 = this.register();
-		final User u4 = this.register();
+		this.register();
 		
 		final User user = this.userDAO.findById(u3.getId());
 
@@ -139,10 +139,10 @@ public class UserDAOTest {
 
 	@Test
 	public void findByLogin() throws FakeSizeException, UserNotFoundException {
-		final User u1 = this.register();
+		this.register();
 		final User u2 = this.register();
-		final User u3 = this.register();
-		final User u4 = this.register();
+		this.register();
+		this.register();
 		
 		final User user = this.userDAO.findByLogin(u2.getLogin());
 
@@ -154,10 +154,10 @@ public class UserDAOTest {
 
 	@Test
 	public void findByEmail() throws FakeSizeException, UserNotFoundException {
-		final User u1 = this.register();
+		this.register();
 		final User u2 = this.register();
-		final User u3 = this.register();
-		final User u4 = this.register();
+		this.register();
+		this.register();
 		
 		final User user = this.userDAO.findByEmail(u2.getEmail());
 

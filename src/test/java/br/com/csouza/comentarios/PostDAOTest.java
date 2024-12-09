@@ -106,9 +106,9 @@ public class PostDAOTest {
 		final User u1 = Fake.user(userRepository);
 		final User u2 = Fake.user(userRepository);
 
-		final Post p1 = this.register(u1);
-		final Post p2 = this.register(u1);
-		final Post p3 = this.register(u2);
+		this.register(u1);
+		this.register(u1);
+		this.register(u2);
 		
 		final Collection<Post> posts = this.postDAO.read();
 		
@@ -147,9 +147,9 @@ public class PostDAOTest {
 		final User u1 = Fake.user(userRepository);
 		final User u2 = Fake.user(userRepository);
 		
-		final Post p1 = this.register(u1);
+		this.register(u1);
 		final Post p2 = this.register(u2);
-		final Post p3 = this.register(u2);
+		this.register(u2);
 		
 		final Post post = this.postDAO.findById(p2.getId());
 
@@ -163,11 +163,11 @@ public class PostDAOTest {
 		final User u1 = Fake.user(userRepository);
 		final User u2 = Fake.user(userRepository);
 		
-		final Post p1 = this.register(u1);
-		final Post p2 = this.register(u2);
-		final Post p3 = this.register(u2);
-		final Post p4 = this.register(u2);
-		final Post p5 = this.register(u1);
+		this.register(u1);
+		this.register(u2);
+		this.register(u2);
+		this.register(u2);
+		this.register(u1);
 		
 		final Collection<Post> posts = this.postDAO.findCreatedById(u2.getId());
 		
@@ -179,11 +179,11 @@ public class PostDAOTest {
 		final User u1 = Fake.user(userRepository);
 		final User u2 = Fake.user(userRepository);
 		
-		final Post p1 = this.register(u1);
-		final Post p2 = this.register(u2);
-		final Post p3 = this.register(u2);
-		final Post p4 = this.register(u2);
-		final Post p5 = this.register(u1);
+		this.register(u1);
+		this.register(u2);
+		this.register(u2);
+		this.register(u2);
+		this.register(u1);
 		
 		final Collection<Post> posts = this.postDAO.findCreatedByLogin(u1.getLogin());
 		
@@ -195,11 +195,11 @@ public class PostDAOTest {
 		final User u1 = Fake.user(userRepository);
 		final User u2 = Fake.user(userRepository);
 		
-		final Post p1 = this.register(u1);
-		final Post p2 = this.register(u2);
-		final Post p3 = this.register(u2);
-		final Post p4 = this.register(u2);
-		final Post p5 = this.register(u1);
+		this.register(u1);
+		this.register(u2);
+		this.register(u2);
+		this.register(u2);
+		this.register(u1);
 		
 		final Collection<Post> posts = this.postDAO.findCreatedByEmail(u2.getEmail());
 		
