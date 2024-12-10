@@ -21,13 +21,13 @@ public class UserRepository extends Repository<User, Long> implements IUserRepos
 
 	private void checkName(String name) {
 		if (Data.isEmpty(name) || !Data.isValidSize(name, 3)) {
-			throw new UserNameLength("O nome de usuário deve possuir 5 ou mais caracteres.");
+			throw new UserNameLength("O nome de usuário deve possuir 3 ou mais caracteres.");
 		}
 	}
 
 	private void checkSurname(String surname) {
 		if (Data.isEmpty(surname) || !Data.isValidSize(surname, 3)) {
-			throw new UserSurnameLength("O sobrenome de usuário deve possuir 5 ou mais caracteres.");
+			throw new UserSurnameLength("O sobrenome de usuário deve possuir 3 ou mais caracteres.");
 		}
 	}
 
