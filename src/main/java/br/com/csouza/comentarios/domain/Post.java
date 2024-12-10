@@ -16,7 +16,7 @@ import jakarta.persistence.ForeignKey;
 
 @Entity
 @Table(name = "tb_posts")
-public class Post {
+public class Post extends DatabaseEntity  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posts_seq")
 	@SequenceGenerator(name = "posts_seq", sequenceName = "sq_posts", initialValue = 1, allocationSize = 1)

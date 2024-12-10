@@ -15,7 +15,6 @@ import br.com.csouza.comentarios.domain.Post;
 import br.com.csouza.comentarios.domain.Publication;
 import br.com.csouza.comentarios.domain.User;
 import br.com.csouza.comentarios.exceptions.IDNotFoundException;
-import br.com.csouza.comentarios.interfaces.repository.IPostRepository;
 import br.com.csouza.comentarios.repository.CommentRepository;
 import br.com.csouza.comentarios.repository.PostRepository;
 import br.com.csouza.comentarios.repository.PublicationRepository;
@@ -28,9 +27,8 @@ public class PublicationRepositoryTest {
 	private CommentRepository commentRepository;
 
 	public PublicationRepositoryTest() {
-		final IPostRepository postRepository = new PostRepository(new PostDAO());
 		this.userRepository = new UserRepository(new UserDAO());
-		this.postRepository = new PostRepository(new PostDAO());
+		this.postRepository = new PostRepository(new PostDAO(), this.userRepository);
 		this.commentRepository = new CommentRepository(new CommentDAO());
 
 		System.out.println(userRepository);

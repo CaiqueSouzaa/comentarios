@@ -3,13 +3,14 @@ package br.com.csouza.comentarios.dao;
 import java.io.Serializable;
 import java.util.Collection;
 
+import br.com.csouza.comentarios.domain.DatabaseEntity;
 import br.com.csouza.comentarios.exceptions.IDNotFoundException;
 import br.com.csouza.comentarios.interfaces.dao.IGenericDAO;
 import br.com.csouza.comentarios.jdbc.PostgreSQL;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
-public abstract class GenericDAO<T, E extends Serializable> implements IGenericDAO<T, E> {
+public abstract class GenericDAO<T extends DatabaseEntity, E extends Serializable> implements IGenericDAO<T , E> {
 	private final Class<T> entityClass;
 	
 	protected GenericDAO(Class<T> entity) {

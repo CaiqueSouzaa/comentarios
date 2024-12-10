@@ -3,6 +3,7 @@ package br.com.csouza.comentarios.interfaces.dao;
 import java.io.Serializable;
 import java.util.Collection;
 
+import br.com.csouza.comentarios.domain.DatabaseEntity;
 import br.com.csouza.comentarios.exceptions.IDNotFoundException;
 
 /**
@@ -13,7 +14,7 @@ import br.com.csouza.comentarios.exceptions.IDNotFoundException;
  * @author Caique Souza
  * @version 1.0
  */
-public interface IGenericDAO<T, E extends Serializable> {
+public interface IGenericDAO<T extends DatabaseEntity, E extends Serializable> {
 	/**
 	 * Método responsável pela criação de um novo registro.
 	 * @param entity - Objeto a ser registrado.

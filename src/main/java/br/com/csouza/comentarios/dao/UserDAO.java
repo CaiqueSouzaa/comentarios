@@ -1,7 +1,6 @@
 package br.com.csouza.comentarios.dao;
 
 import br.com.csouza.comentarios.domain.User;
-import br.com.csouza.comentarios.exceptions.UserNotFoundException;
 import br.com.csouza.comentarios.interfaces.dao.IUserDAO;
 import br.com.csouza.comentarios.jdbc.PostgreSQL;
 import jakarta.persistence.EntityManager;
@@ -13,7 +12,7 @@ public class UserDAO extends GenericDAO<User, Long> implements IUserDAO {
 	}
 
 	@Override
-	public User findByLogin(String login) throws UserNotFoundException {
+	public User findByLogin(String login) {
 		try (final EntityManager entityManager = PostgreSQL.getConnection()) {
 			final String stQuery = "SELECT user FROM User AS user "
 					+ "WHERE user.login = :login";
@@ -24,13 +23,14 @@ public class UserDAO extends GenericDAO<User, Long> implements IUserDAO {
 			try {				
 				return query.getSingleResult();
 			} catch (Exception e) {
-				throw new UserNotFoundException("Login de usuário [" + login + "] não localizado ou inexistente.");
+				return null;
+				// throw new UserNotFoundException("Login de usuário [" + login + "] não localizado ou inexistente.");
 			}
 		}
 	}
 
 	@Override
-	public User findByEmail(String email) throws UserNotFoundException {
+	public User findByEmail(String email) {
 		try (final EntityManager entityManager = PostgreSQL.getConnection()) {
 			final String stQuery = "SELECT user FROM User AS user "
 					+ "WHERE user.email = :email";
@@ -41,7 +41,7 @@ public class UserDAO extends GenericDAO<User, Long> implements IUserDAO {
 			try {
 				return query.getSingleResult();				
 			} catch (Exception e) {
-				throw new UserNotFoundException("Endereço de e-mail [" + email + "] não localizado ou inexistente.");
+				return null;
 			}
 		}
 	}

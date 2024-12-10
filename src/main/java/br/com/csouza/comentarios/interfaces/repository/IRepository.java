@@ -14,7 +14,7 @@ import br.com.csouza.comentarios.exceptions.IDNotFoundException;
 public interface IRepository<T, E extends Serializable> {
 	/**
 	 * Método responsável por realizar um novo registro.
-	 * @param entity Objeto contendo as informações a serem registradas.
+	 * @param entity - Objeto contendo as informações a serem registradas.
 	 * @return Objeto registrado contendo seu ID de registro.
 	 */
 	public T register(T entity);
@@ -27,7 +27,7 @@ public interface IRepository<T, E extends Serializable> {
 	
 	/**
 	 * Método responsável por realizar a busca de um registro com base em seu ID.
-	 * @param id ID de registro a ser buscado.
+	 * @param id - ID de registro a ser buscado.
 	 * @return Objeto contendo as informações do registro.
 	 * @throws IDNotFoundException Exceção lançada caso o ID de registro não seja localizado.
 	 */
@@ -35,7 +35,7 @@ public interface IRepository<T, E extends Serializable> {
 	
 	/**
 	 * Método responsável por atualizar um registro.
-	 * @param entity Objeto contendo o ID de registro e as informações a serem atualizadas.
+	 * @param entity - Objeto contendo o ID de registro e as informações a serem atualizadas.
 	 * @return Objeto atualizado.
 	 * @throws IDNotFoundException Exceção lançada caso o ID de registro não seja localizado.
 	 */
@@ -43,7 +43,7 @@ public interface IRepository<T, E extends Serializable> {
 	
 	/**
 	 * Método responsável por excluir um registro.
-	 * @param id ID do registro a ser excluído.
+	 * @param id - ID do registro a ser excluído.
 	 * @return {@code true} para registro excluído e {@code false} para registro não excluído.
 	 * @throws IDNotFoundException Exceção lançada caso o ID de registro não seja localizado.
 	 */

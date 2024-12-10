@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_comments")
-public class Comment {
+public class Comment extends DatabaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comments_seq")
 	@SequenceGenerator(name = "comments_seq", sequenceName = "sq_comments", initialValue = 1, allocationSize = 1)

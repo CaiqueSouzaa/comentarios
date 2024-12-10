@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_users")
-public class User {
+public class User extends DatabaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
 	@SequenceGenerator(name = "users_seq", sequenceName = "sq_users", initialValue = 1, allocationSize = 1)
@@ -31,7 +31,7 @@ public class User {
 	@Column(name = "email", nullable = false, unique = true, length = 100)
 	private String email;
 	
-	@Column(name = "birthday", nullable = false)
+	@Column(name = "birthday")
 	private Instant birthday;
 	
 	@Column(name = "actived", nullable = false)

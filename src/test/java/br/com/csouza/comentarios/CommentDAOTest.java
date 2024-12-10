@@ -34,7 +34,7 @@ public class CommentDAOTest {
 	public CommentDAOTest() {
 		this.commentDAO = new CommentDAO();
 		this.userRepository = new UserRepository(new UserDAO());
-		this.postRepository = new PostRepository(new PostDAO());
+		this.postRepository = new PostRepository(new PostDAO(), this.userRepository);
 	}
 	
 	@After

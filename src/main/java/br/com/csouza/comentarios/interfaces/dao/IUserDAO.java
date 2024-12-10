@@ -16,7 +16,7 @@ public interface IUserDAO extends IGenericDAO<User, Long> {
 	 * @return Usuário referente ao login
 	 * @throws UserNotFoundException Exceção lançada caso o login de usuário não seja localizado.
 	 */
-	public User findByLogin(String login) throws UserNotFoundException;
+	public User findByLogin(String login);
 	
 	/**
 	 * Método responsável pela busca de um usuário com base em seu endereço de e-mail.
@@ -24,5 +24,5 @@ public interface IUserDAO extends IGenericDAO<User, Long> {
 	 * @return Usuário referente ao endereço de e-mail.
 	 * @throws UserNotFoundException Exceção lançada caso o endereço de email de usuário não seja localizado.
 	 */
-	public User findByEmail(String email) throws UserNotFoundException;
+	public User findByEmail(String email);
 }

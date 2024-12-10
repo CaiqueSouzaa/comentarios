@@ -32,7 +32,7 @@ public class CommentRepositoryTest {
     public CommentRepositoryTest() {
         this.commentRepository = new CommentRepository(new CommentDAO());
         this.userRepository = new UserRepository(new UserDAO());
-        this.postRepository = new PostRepository(new PostDAO());
+        this.postRepository = new PostRepository(new PostDAO(), this.userRepository);
     }
 
     @After

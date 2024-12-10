@@ -3,12 +3,13 @@ package br.com.csouza.comentarios.repository;
 import java.io.Serializable;
 import java.util.Collection;
 
+import br.com.csouza.comentarios.domain.DatabaseEntity;
 import br.com.csouza.comentarios.exceptions.IDNotFoundException;
 import br.com.csouza.comentarios.interfaces.dao.IGenericDAO;
 import br.com.csouza.comentarios.interfaces.repository.IRepository;
 
-public abstract class Repository<T, E extends Serializable> implements IRepository<T, E> {
-	protected final IGenericDAO< T, E> dao;
+public abstract class Repository<T extends DatabaseEntity, E extends Serializable> implements IRepository<T, E> {
+	protected final IGenericDAO<T, E> dao;
 	
 	protected Repository(IGenericDAO<T, E> dao) {
 		this.dao = dao;

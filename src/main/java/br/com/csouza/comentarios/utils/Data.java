@@ -5,72 +5,43 @@ import java.util.regex.Pattern;
 
 public class Data {
 	/**
-	 * Método responsável por verificar se um atributo pode ser nulo ou não.
-	 * @param field - Nome do atributo.
-	 * @param value - Valor do atributo
-	 * @param nullable - Se o atributo pode ser nulo ou não.
+	 * Método para verificar se um objeto é nulo.
+	 * @param value - Objeto a ser verificado.
+	 * @return {@code true} Nulo; {@code false} Não nulo.
 	 */
-	public static void canNull(String field, Object value, boolean nullable) {
-		if (nullable == false && value == null) {
-			throw new RuntimeException("O campo [" + field + "] não pode estar nulo.");
-		}
+	public static boolean isNull(Object value) {
+		return value == null ? true : false;
 	}
 	
-    /**
-     * Método responsável por verificar se um atributo pode ser vázio ou não.
-	 * @param field - Nome do atributo.
-	 * @param value - Valor do atributo
-	 * @param empty - Se o atributo pode ser vázio ou não.
-     */
-    public static void canEmpty(String field, String value, boolean empty) {
-        if (!empty && value.trim().length() == 0) {
-			throw new RuntimeException("O campo [" + field + "] não pode estar vázio.");
-        }
-    }
+	/**
+	 * Método para verificar se uma String é vázia.
+	 * @param value - String a ser verificada.
+	 * @return {@code true} Vázia; {@code false} Não vázia.
+	 */
+	public static boolean isEmpty(String value) {
+		return !(!isNull(value) && value.trim().length() > 0);
+	}
 
-    /**
-     * Método responsável por válidar uma regra regex.
-     * @param regex - Regra Regex.
-     * @param field - Nome do campo.
-     * @param text - Valor a ser submetido a validação da regra regex.
-     */
-	public static void checkRegex(String regex, String field, String text) {
+	/**
+	 * Método para verificar se um regex é válido.
+	 * @param regex - Regra regex.
+	 * @param value - Text a ser submetido ao regex.
+	 * @return {@code true} Válido; {@code false} Não válido.
+	 */
+	public static boolean isValidRegex(String regex, String value) {
 		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(text.trim());
+		Matcher matcher = pattern.matcher(value.trim());
 
-		if (!matcher.matches()) {
-			throw new RuntimeException("O valor [" + text + "] não é compativel com o campo [" + field + "].");
-		}
+		return matcher.matches();
 	}
 
-    /**
-     * Método responsável por válidar o tamanho de uma string.
-     * @param field - Nome do campo.
-     * @param text - Texto a ter seu tamanho válidado.
-     * @param size - Tamanho esperado que o texto possua.
-     */
-	public static void checkSize(String field, String text, int size) {
-		if (text == null || text.trim().length() < size) {
-			throw new RuntimeException("O " + field + " deve ser maior ou igual a " + size + " caracteres.");
-		}
+	/**
+	 * Método para validar o tamanho de String.
+	 * @param value - String a ser verificada.
+	 * @param size - Tamanho que a String deve possuir.
+	 * @return {@code true} A String é igual ou maior ao número esperado; {@code false} A String é menor ao número esperado.
+	 */
+	public static boolean isValidSize(String value, int size) {
+		return !isEmpty(value) && value.length() >= size;
 	}
-
-    /**
-     * Método responsável por realizar válidações de nulabilidade, regra de regex e tamanho de textos.
-     * @param field - Nome do campo.
-     * @param text - Texto a ser verificado.
-     * @param size - Tamanho esperado que o texto possua.
-	 * @param canNull - Se o atributo pode ser nulo ou não.
-     * @param regex - Regra Regex.
-     */
-	public static void checkString(String field, String text, int size, boolean canNull, String regex) {
-		canNull(field, text, canNull);
-
-		if (regex != null) {
-			checkRegex(regex, field, text);
-		}
-
-		checkSize(field, text, size);
-	}
-	
 }
