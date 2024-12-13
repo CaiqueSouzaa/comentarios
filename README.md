@@ -9,4 +9,4 @@ Projeto desenvolvido para aplicar os conhecimentos adquiridos no curso da EBAC s
 ![Vialização de todos os posts](img/visualizando_os_posts_criados2.png)
 ![Registrar um comentário](img/adicionando_um_comentario2.png)
 ![Visulizar todos os comentários](img/buscando_os_comentarios.png)
-![Visulizar todos os comentários](https://github.com/user-attachments/assets/4b7af5e5-bcb2-45e7-98bf-464121b69625)
+![Visulizar todos os comentários](img/comentarios2.png)
