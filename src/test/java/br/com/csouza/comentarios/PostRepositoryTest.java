@@ -3,6 +3,8 @@ package br.com.csouza.comentarios;
 import java.time.Instant;
 import java.util.Collection;
 
+import br.com.csouza.comentarios.dao.CommentDAO;
+import br.com.csouza.comentarios.repository.CommentRepository;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Assert;
@@ -26,7 +28,7 @@ public class PostRepositoryTest {
 
     public PostRepositoryTest() {
         this.userRepository = new UserRepository(new UserDAO());
-        this.postRepository = new PostRepository(new PostDAO(), this.userRepository);
+        this.postRepository = new PostRepository(new PostDAO(), this.userRepository, new CommentRepository(new CommentDAO()));
     }
 
     @After

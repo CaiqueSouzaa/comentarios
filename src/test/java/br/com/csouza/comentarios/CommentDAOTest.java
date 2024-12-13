@@ -1,5 +1,6 @@
 package br.com.csouza.comentarios;
 
+import br.com.csouza.comentarios.repository.CommentRepository;
 import org.junit.Test;
 
 import java.time.Instant;
@@ -34,7 +35,7 @@ public class CommentDAOTest {
 	public CommentDAOTest() {
 		this.commentDAO = new CommentDAO();
 		this.userRepository = new UserRepository(new UserDAO());
-		this.postRepository = new PostRepository(new PostDAO(), this.userRepository);
+		this.postRepository = new PostRepository(new PostDAO(), this.userRepository, new CommentRepository(new CommentDAO()));
 	}
 	
 	@After

@@ -2,12 +2,16 @@ package br.com.csouza.comentarios.repository;
 
 import java.util.Collection;
 
+import br.com.csouza.comentarios.domain.Comment;
 import br.com.csouza.comentarios.domain.Post;
+import br.com.csouza.comentarios.domain.PostComment;
 import br.com.csouza.comentarios.domain.User;
 import br.com.csouza.comentarios.exceptions.IDNotFoundException;
+import br.com.csouza.comentarios.exceptions.PostNotFoundException;
 import br.com.csouza.comentarios.exceptions.PostTitleLengthException;
 import br.com.csouza.comentarios.exceptions.UserNotFoundException;
 import br.com.csouza.comentarios.interfaces.dao.IPostDAO;
+import br.com.csouza.comentarios.interfaces.repository.ICommentRepository;
 import br.com.csouza.comentarios.interfaces.repository.IPostRepository;
 import br.com.csouza.comentarios.interfaces.repository.IUserRepository;
 import br.com.csouza.comentarios.utils.Data;
@@ -15,11 +19,13 @@ import br.com.csouza.comentarios.utils.Data;
 public class PostRepository extends Repository<Post, Long> implements IPostRepository {
 	private final IPostDAO postDAO;
 	private final IUserRepository userRepository;
+	private final ICommentRepository commentRepository;
 	
-	public PostRepository(IPostDAO dao, IUserRepository userRepository) {
+	public PostRepository(IPostDAO dao, IUserRepository userRepository, ICommentRepository commentRepository) {
 		super(dao);
 		this.postDAO = dao;
 		this.userRepository = userRepository;
+		this.commentRepository = commentRepository;
 	}
 
 	private void checkTitle(String title) {
@@ -76,5 +82,25 @@ public class PostRepository extends Repository<Post, Long> implements IPostRepos
 	@Override
 	public Collection<Post> getCreatedByEmail(String email) throws UserNotFoundException {
 		return this.postDAO.findCreatedByEmail(email);
+	}
+
+	@Override
+	public Comment addComment(long id, User user, String comment) {
+		final Post post = postDAO.findById(id);
+
+		final Comment c = new Comment();
+		c.setPost(post);
+		c.setUser(user);
+		c.setComment(comment);
+
+		return this.commentRepository.register(c);
+	}
+
+	@Override
+	public PostComment getComments(long id) throws PostNotFoundException {
+		final Post post = postDAO.findById(id);
+		final Collection<Comment> comments = commentRepository.getAllByPostId(id);
+
+		return new PostComment(post, comments);
 	}
 }

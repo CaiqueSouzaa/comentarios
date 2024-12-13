@@ -2,8 +2,12 @@ package br.com.csouza.comentarios.interfaces.repository;
 
 import java.util.Collection;
 
+import br.com.csouza.comentarios.domain.Comment;
 import br.com.csouza.comentarios.domain.Post;
+import br.com.csouza.comentarios.domain.PostComment;
+import br.com.csouza.comentarios.domain.User;
 import br.com.csouza.comentarios.exceptions.IDNotFoundException;
+import br.com.csouza.comentarios.exceptions.PostNotFoundException;
 import br.com.csouza.comentarios.exceptions.UserNotFoundException;
 
 /**
@@ -36,4 +40,8 @@ public interface IPostRepository extends IRepository<Post, Long>{
 	 * @throws UserNotFoundException Exceção lançada caso o nome de login não seja localizado.
 	 */
 	public Collection<Post> getCreatedByEmail(String email) throws UserNotFoundException;
+
+	public Comment addComment(long id, User user, String comment);
+
+	public PostComment getComments(long id) throws PostNotFoundException;
 }

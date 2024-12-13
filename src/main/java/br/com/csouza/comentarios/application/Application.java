@@ -1,18 +1,27 @@
 package br.com.csouza.comentarios.application;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
+import br.com.csouza.comentarios.dao.CommentDAO;
+import br.com.csouza.comentarios.dao.PostDAO;
 import br.com.csouza.comentarios.dao.UserDAO;
-import br.com.csouza.comentarios.domain.User;
+import br.com.csouza.comentarios.domain.*;
 import br.com.csouza.comentarios.exceptions.UserEmailInvalidException;
 import br.com.csouza.comentarios.exceptions.UserLoginLength;
 import br.com.csouza.comentarios.exceptions.UserLoginNotAvaliableException;
+import br.com.csouza.comentarios.repository.CommentRepository;
+import br.com.csouza.comentarios.repository.PostRepository;
+import br.com.csouza.comentarios.repository.PublicationRepository;
 import br.com.csouza.comentarios.repository.UserRepository;
 import br.com.csouza.comentarios.utils.Data;
 import br.com.csouza.comentarios.utils.Terminal;
 
 public class Application {
-    private static UserRepository userRepository = new UserRepository(new UserDAO());
+    private static final UserRepository userRepository = new UserRepository(new UserDAO());
+    private static final PostRepository postRepository = new PostRepository(new PostDAO(), userRepository, new CommentRepository(new CommentDAO()));
+    private static final PublicationRepository publicationRepository = new PublicationRepository(userRepository, postRepository, new CommentRepository(new CommentDAO()));
 
     public static void init() throws InterruptedException {
         System.out.print("\033c");
@@ -24,7 +33,6 @@ public class Application {
         initOptions(scanner);
 
         scanner.close();
-
     }
 
     private static void initOptions(Scanner scan) throws InterruptedException {
@@ -66,9 +74,10 @@ public class Application {
 
         if (!Data.isNull(user.getId())) {
             init();
+        } else {
+            System.out.println("Ocorreu um problema ao tentar registrar o usuário.\nPor favor, verifique as conexões com o banco de dados e tente  novamente.");
+            System.exit(0);
         }
-        System.out.println("Ocorreu um problema ao tentar registrar o usuário.\nPor favor, verifique as conexões com o banco de dados e tente  novamente.");
-        System.exit(0);
     }
 
     private static void login(final Scanner scan) throws InterruptedException {
@@ -81,6 +90,201 @@ public class Application {
             init();
         }
 
+        final User user = userRepository.getByLogin(userLogin);
+        home(scan, user);
+    }
+
+    private static void home(final Scanner scan, final User user) {
+        Terminal.clear();
+        System.out.println("Login realizado com sucesso!");
+
+        homeOptions(scan, user);
+    }
+
+    private static void homeOptions(final Scanner scan, final User user) {
+        boolean isValid = false;
+        int option = 0;
+        final int allPostsOption = 1;
+        final int newPostOption = 2;
+        final int exitOption = 3;
+
+        while (!isValid) {
+            Terminal.clear();
+            System.out.println("\n1: Todos os posts\n2: Criar um novo post\n3: Sair");
+            option = nextInt(scan);
+
+            if (option == allPostsOption || option == newPostOption || option == exitOption) {
+                isValid = true;
+            }
+
+            switch (option) {
+                case allPostsOption:
+                    allPosts(scan, user);
+                    break;
+                case newPostOption:
+                    newPost(scan, user);
+                    break;
+                case exitOption:
+                    exit();
+                    break;
+                default:
+                    System.out.println("Opção inválida.\nTente novamente.");
+            }
+        }
+    }
+
+    /**
+     * Método para obter um valor garantido de inteiro.
+     * @param scan - Scanner a ser usado.
+     * @return Número inteiro.
+     */
+    private static int nextInt(final Scanner scan) {
+        boolean isValid = false;
+        int value = 0;
+
+        while (!isValid) {
+            try {
+                value = scan.nextInt();
+
+                isValid = true;
+
+            } catch (Exception e) {
+                System.out.println("Insira somente valores númericos.\nTente novamente.");
+                scan.nextLine();
+            }
+        }
+
+        return value;
+    }
+
+    private static void allPosts(final Scanner scan, final User user) {
+        boolean isValid = false;
+        final int commentsOption = 1;
+        final int newCommentOption = 2;
+        final int backOption = 3;
+        final Collection<Post> posts = postRepository.getAll();
+
+        posts.forEach(Application::showPost);
+
+        while (!isValid) {
+            System.out.println("1: Visualizar comentários de um post\n2: Novo comentário em um post\n3: Voltar");
+            int option = nextInt(scan);
+
+            if (option == commentsOption || option == newCommentOption || option == backOption) {
+                isValid = true;
+            }
+
+            switch (option) {
+                case commentsOption:
+                    comments(scan, user);
+                    break;
+                case newCommentOption:
+                    newComment(scan, user);
+                    break;
+                case backOption:
+                    homeOptions(scan, user);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+    private static void comments(final Scanner scan, final User user) {
+        boolean postIdIsValid = false;
+        int postId = 0;
+
+        while (!postIdIsValid) {
+            System.out.print("ID de post: ");
+            postId = nextInt(scan);
+
+            if (hasPostId(postId)) {
+                postIdIsValid = true;
+            } else {
+                System.out.println("ID de post não localizado. Tente novamente");
+            }
+        }
+
+        PostComment postComment = postRepository.getComments(postId);
+
+        System.out.println("[ " + postComment.getPost().getTitle() + " ] - " + postComment.getPost().getUser().getName() + " " + postComment.getPost().getUser().getSurname());
+        postComment.getComments().forEach(c -> showComment(postComment, c));
+
+        homeOptions(scan, user);
+    }
+
+    private static void newComment(final Scanner scan, final User user) {
+        boolean postIdIsValid = false;
+        boolean commentIsValid = false;
+        int postId = 0;
+        String comment = "";
+
+        while (!postIdIsValid) {
+            System.out.print("ID de post: ");
+            postId = nextInt(scan);
+
+            if (hasPostId(postId)) {
+                postIdIsValid = true;
+            } else {
+                System.out.println("ID de post não localizado. Tente novamente");
+            }
+        }
+
+        while (!commentIsValid) {
+            System.out.print("Comentário: ");
+            scan.nextLine();
+            final String c = scan.nextLine();
+
+            if (!Data.isEmpty(c)) {
+                commentIsValid = true;
+            } else {
+                System.out.println("Comentário é obrigatório.");
+            }
+            comment = c;
+            System.out.println(comment);
+        }
+
+        postRepository.addComment(postId, user, comment);
+
+        allPosts(scan, user);
+    }
+
+    private static void newPost(final Scanner scan, final User user) {
+        boolean titleIsValid = false;
+        String title = "";
+        scan.nextLine();
+
+        while (!titleIsValid) {
+            Terminal.clear();
+            System.out.print("\n----- Novo post -----\nTítulo do post: ");
+            title = scan.nextLine();
+
+            if (!Data.isEmpty(title)) {
+                titleIsValid = true;
+            } else {
+                System.out.println("Título é um campo obrigatório.");
+            }
+        }
+
+        System.out.print("Conteúdo: ");
+        final String content = scan.nextLine();
+
+        Post post = new Post();
+        post.setTitle(title);
+        post.setContent(content);
+        post.setUser(user);
+        final Publication publication = publicationRepository.register(post, user);
+
+        if (Data.isNull(publication.getPost().getId())) {
+            System.out.println("Não foi possível registrar o post.");
+            home(scan, user);
+        }
+
+        home(scan, user);
+    }
+
+    private static void exit() {
+        System.exit(0);
     }
 
     private static String input(final Scanner scan, String inputName) {
@@ -212,5 +416,26 @@ public class Application {
      */
     private static boolean hasLogin(String login) {
         return userRepository.getByLogin(login) != null;
+    }
+
+    private static void showPost(Post post) {
+        System.out.println(post.getId() + ": [ " + post.getTitle() + " ] - " + post.getUser().getName() + " " + post.getUser().getSurname() + "\n  * " + post.getContent() + "\n");
+    }
+
+    private static boolean hasPostId(long id) {
+        try {
+            final Post p = postRepository.getById(id);
+
+            return !Data.isNull(p);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static void showComment(final PostComment post, final Comment comment) {
+        System.out.println(
+                " -> " + comment.getUser().getName() + " " + comment.getUser().getSurname() +
+                    "\n  * " + comment.getComment() + "\n"
+        );
     }
 }

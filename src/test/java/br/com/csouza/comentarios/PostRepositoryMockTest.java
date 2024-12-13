@@ -2,6 +2,8 @@ package br.com.csouza.comentarios;
 
 import java.time.Instant;
 
+import br.com.csouza.comentarios.dao.CommentDAO;
+import br.com.csouza.comentarios.repository.CommentRepository;
 import org.junit.Test;
 
 import br.com.csouza.comentarios.dao.mock.PostMock;
@@ -24,7 +26,7 @@ public class PostRepositoryMockTest {
 
     public PostRepositoryMockTest() {
         this.userRepository = new UserRepository(new UserMock());
-        this.postRepository = new PostRepository(new PostMock(), this.userRepository);
+        this.postRepository = new PostRepository(new PostMock(), this.userRepository, new CommentRepository(new CommentDAO()));
     }
 
     private Post createPost(User user) throws FakeSizeException {

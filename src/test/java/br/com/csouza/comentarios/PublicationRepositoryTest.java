@@ -28,8 +28,8 @@ public class PublicationRepositoryTest {
 
 	public PublicationRepositoryTest() {
 		this.userRepository = new UserRepository(new UserDAO());
-		this.postRepository = new PostRepository(new PostDAO(), this.userRepository);
 		this.commentRepository = new CommentRepository(new CommentDAO());
+		this.postRepository = new PostRepository(new PostDAO(), this.userRepository, this.commentRepository);
 
 		System.out.println(userRepository);
 		
