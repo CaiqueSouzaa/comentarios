@@ -1,16 +1,12 @@
 package br.com.csouza.comentarios.application;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Scanner;
 
 import br.com.csouza.comentarios.dao.CommentDAO;
 import br.com.csouza.comentarios.dao.PostDAO;
 import br.com.csouza.comentarios.dao.UserDAO;
 import br.com.csouza.comentarios.domain.*;
-import br.com.csouza.comentarios.exceptions.UserEmailInvalidException;
-import br.com.csouza.comentarios.exceptions.UserLoginLength;
-import br.com.csouza.comentarios.exceptions.UserLoginNotAvaliableException;
 import br.com.csouza.comentarios.repository.CommentRepository;
 import br.com.csouza.comentarios.repository.PostRepository;
 import br.com.csouza.comentarios.repository.PublicationRepository;
@@ -20,8 +16,10 @@ import br.com.csouza.comentarios.utils.Terminal;
 
 public class Application {
     private static final UserRepository userRepository = new UserRepository(new UserDAO());
-    private static final PostRepository postRepository = new PostRepository(new PostDAO(), userRepository, new CommentRepository(new CommentDAO()));
-    private static final PublicationRepository publicationRepository = new PublicationRepository(userRepository, postRepository, new CommentRepository(new CommentDAO()));
+    private static final PostRepository postRepository = new PostRepository(new PostDAO(), userRepository,
+            new CommentRepository(new CommentDAO()));
+    private static final PublicationRepository publicationRepository = new PublicationRepository(userRepository,
+            postRepository, new CommentRepository(new CommentDAO()));
 
     public static void init() throws InterruptedException {
         System.out.print("\033c");
@@ -48,15 +46,15 @@ public class Application {
                 register(scan);
                 break;
             default:
-            System.out.println("Opção inválida! Tente novamente.");
-            initOptions(scan);
+                System.out.println("Opção inválida! Tente novamente.");
+                initOptions(scan);
         }
     }
 
     private static void register(final Scanner scan) throws InterruptedException {
         Terminal.clear();
         System.out.println("Precisamos das seguintes informações para seguir com seu registro:" +
-        "\n1° Nome\n2° Sobrenome\n3° Endereço de e-mail\n4° Nome de login");
+                "\n1° Nome\n2° Sobrenome\n3° Endereço de e-mail\n4° Nome de login");
 
         scan.nextLine();
         final String name = checkName(scan);
@@ -75,7 +73,8 @@ public class Application {
         if (!Data.isNull(user.getId())) {
             init();
         } else {
-            System.out.println("Ocorreu um problema ao tentar registrar o usuário.\nPor favor, verifique as conexões com o banco de dados e tente  novamente.");
+            System.out.println(
+                    "Ocorreu um problema ao tentar registrar o usuário.\nPor favor, verifique as conexões com o banco de dados e tente  novamente.");
             System.exit(0);
         }
     }
@@ -135,6 +134,7 @@ public class Application {
 
     /**
      * Método para obter um valor garantido de inteiro.
+     * 
      * @param scan - Scanner a ser usado.
      * @return Número inteiro.
      */
@@ -207,8 +207,14 @@ public class Application {
 
         PostComment postComment = postRepository.getComments(postId);
 
-        System.out.println("[ " + postComment.getPost().getTitle() + " ] - " + postComment.getPost().getUser().getName() + " " + postComment.getPost().getUser().getSurname());
+        System.out.println("[ " + postComment.getPost().getTitle() + " ] - " + postComment.getPost().getUser().getName()
+                + " " + postComment.getPost().getUser().getSurname());
         postComment.getComments().forEach(c -> showComment(postComment, c));
+
+        System.out.print("Pressione enter para voltar...");
+        scan.nextLine();
+        scan.nextLine();
+        scan.nextLine();
 
         homeOptions(scan, user);
     }
@@ -299,6 +305,7 @@ public class Application {
 
     /**
      * Método para obter um nome válido do usuário.
+     * 
      * @param scan - Scanner usado.
      * @return Nome do usuário.
      */
@@ -320,6 +327,7 @@ public class Application {
 
     /**
      * Método para obter um sobrenome válido do usuário.
+     * 
      * @param scan - Scanner usado.
      * @return Sobrenome do usuário.
      */
@@ -341,6 +349,7 @@ public class Application {
 
     /**
      * Método para obter um endereço de e-mail válido do usuário.
+     * 
      * @param scan Scanner para receber o e-mail.
      * @return E-mail do usuário.
      */
@@ -369,8 +378,10 @@ public class Application {
 
     /**
      * Método para obter um nome de login válido do usuário.
-     * @param scan - Scanner para receber o login.
-     * @param register - Especificar se o método será usado para login ou para registro.
+     * 
+     * @param scan     - Scanner para receber o login.
+     * @param register - Especificar se o método será usado para login ou para
+     *                 registro.
      * @return Login do usuário.
      */
     private static String checkLogin(final Scanner scan, boolean register) {
@@ -402,6 +413,7 @@ public class Application {
 
     /**
      * Método para verificar se o endereço de e-mail já está em uso.
+     * 
      * @param email - Endereço de e-mail a ser verificado.
      * @return Booleano.
      */
@@ -411,6 +423,7 @@ public class Application {
 
     /**
      * Método para verificar se nome de login já está em uso.
+     * 
      * @param login - Nome de login a ser verificado.
      * @return Booleano.
      */
@@ -419,7 +432,8 @@ public class Application {
     }
 
     private static void showPost(Post post) {
-        System.out.println(post.getId() + ": [ " + post.getTitle() + " ] - " + post.getUser().getName() + " " + post.getUser().getSurname() + "\n  * " + post.getContent() + "\n");
+        System.out.println(post.getId() + ": [ " + post.getTitle() + " ] - " + post.getUser().getName() + " "
+                + post.getUser().getSurname() + "\n  * " + post.getContent() + "\n");
     }
 
     private static boolean hasPostId(long id) {
@@ -435,7 +449,6 @@ public class Application {
     private static void showComment(final PostComment post, final Comment comment) {
         System.out.println(
                 " -> " + comment.getUser().getName() + " " + comment.getUser().getSurname() +
-                    "\n  * " + comment.getComment() + "\n"
-        );
+                        "\n  * " + comment.getComment() + "\n");
     }
 }
